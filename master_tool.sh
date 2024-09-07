@@ -19,10 +19,10 @@ function install_basic {
 
 function install_steamcmd_server {
 	clear
- 	read -p "Wie soll der Ordner heißen" folder
+ 	read -p "Wie soll der Ordner heißen: " folder
   	echo "====================================="
   	echo "https://github.com/dgibbs64/SteamCMD-AppID-List-Servers/blob/main/steamcmd_appid_servers_linux.csv"
-  	read -p "Welche id?" id
+  	read -p "Welche id?: " id
 	cd /home/Steam
 	./steamcmd.sh +force_install_dir /home/$folder +login anonymous +app_update $id validate +quit
 }
