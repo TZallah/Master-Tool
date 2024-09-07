@@ -1,39 +1,30 @@
 #!/bin/bash
 
 function auswahl {
+	clear
 	echo "Was soll installiert werden?"
 	echo "[1] Java Swapper fuer Minecraft"
-	echo "[2] Counter-Strike Server"
-	echo "[3] Garry's Mod Server"
-	echo "[4] Ark Server"
-	echo "[5] SteamCMD install"
-	echo "[6] New Setup"
+	echo "[2] SteamCMD install"
+	echo "[3] SteamCMD Server install"
+	echo "[4] New Setup"
 	read -p "Was soll gemacht werden: " auswahl 
 }
 
 function install_basic {
 	sudo apt update
 	sudo apt install btop tmux curl
-	export LC_ALL=en_US.UTF-8
-	export LANG=en_US.UTF-8
-	export LANGUAGE=en_US.UTF-8
 	sudo sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 	service ssh restart
 }
 
-function install_ark {
+function install_steamcmd_server {
+	clear
+ 	read -p "Wie soll der Ordner heißen" folder
+  	echo "====================================="
+  	echo "https://github.com/dgibbs64/SteamCMD-AppID-List-Servers/blob/main/steamcmd_appid_servers_linux.csv"
+  	read -p "Welche id?" id
 	cd /home/Steam
-	./steamcmd.sh +force_install_dir /home/Ark +login anonymous +app_update 376030 validate +quit
-}
-
-function install_garrysmod {
-	cd /home/Steam
-	./steamcmd.sh +force_install_dir /home/GarrysMod +login anonymous +app_update 4020 validate +quit
-}
-
-function install_counterstrike {
-	cd /home/Steam
-	./steamcmd.sh +force_install_dir /home/CounterStrike +login anonymous +app_updata 740 validate +quit
+	./steamcmd.sh +force_install_dir /home/$folder +login anonymous +app_update $id validate +quit
 }
 
 function install_steamcmd {
@@ -136,18 +127,12 @@ case $auswahl in
                 install_minecraft
                 ;;
         2)
-                install_counterstrike
-                ;;
-        3)
-                install_garrysmod
-                ;;
-        4)
-                install_ark
-                ;;
-        5)
                 install_steamcmd
                 ;;
-        6)
+        3)
+                install_steamcmd_server
+                ;;
+	4)
                 install_basic
                 ;;
         *)
